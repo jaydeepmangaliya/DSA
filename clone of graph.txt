@@ -1,0 +1,98 @@
+<<---using bfs -->>>
+class Solution{
+    Node cloneGraph(Node source){
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(source);
+
+        // An HashMap to keep track of all the
+        // nodes which have already been created
+        HashMap<Node,Node> hm =new HashMap<Node,Node>();
+
+        //Put the node into the HashMap
+        hm.put(source,new Node(source.val));
+
+        while (!q.isEmpty())
+        {
+            // Get the front node from the queue
+            // and then visit all its neighbours
+            Node u = q.poll();
+
+            // Get corresponding Cloned Graph Node
+            Node cloneNodeU = hm.get(u);
+            if (u.neighbors != null)
+            {
+                ArrayList<Node> v = u.neighbors;
+                for (Node graphNode : v)
+                {
+                    // Get the corresponding cloned node
+                    // If the node is not cloned then we will
+                    // simply get a null
+                    Node cloneNodeG = hm.get(graphNode);
+
+                    // Check if this node has already been created
+                    if (cloneNodeG == null)
+                    {
+                        q.add(graphNode);
+
+                        // If not then create a new Node and
+                        // put into the HashMap
+                        cloneNodeG = new Node(graphNode.val);
+                        hm.put(graphNode,cloneNodeG);
+                    }
+
+                    // add the 'cloneNodeG' to neighbour
+                    // vector of the cloneNodeG
+                    cloneNodeU.neighbors.add(cloneNodeG);
+                }
+            }
+        }
+
+        // Return the reference of cloned source Node
+        return hm.get(source);
+    }
+} 
+////////////////////////////////////////////////////////////////////// 
+class Solution{ 
+    
+    Node cloneGraph(Node node){
+       if(node == null){ 
+           return null;
+       }   
+       
+       Queue<Node> q = new LinkedList<>(); 
+       q.add(node); 
+       // create map to keep track of all the node which are already copied 
+       HashMap<Node,Node> map = new HashMap<>();  
+       // the node into hashmap with copt node; 
+       
+       map.put(node, new Node(node.val)); 
+       while(!q.isEmpty()){ 
+           // remove fist node of q 
+           Node fn = q.poll();  
+           // take coped node from the map
+           Node cpn = map.get(fn); 
+           if(fn.neighbors != null)
+           { 
+               ArrayList<Node> clist = fn.neighbors; 
+               // treak each node of list 
+               // we node is node copied than we will simply get null 
+               for( int i=0; i<clist.size(); i++){ 
+                   Node ln  = clist.get(i); 
+                   // try to get coped node of ln 
+                   // if it node copy than we will get null 
+                   Node cl = map.get(ln); 
+                   if(cl == null){ 
+                       q.add(ln); 
+                       cl = new Node(ln.val); 
+                       map.put(ln ,cl);
+                   }  
+                   // add the neighbotr of cpd node;
+                   cpn.neighbors.add(cl);
+                  
+               }
+           }
+           
+       } 
+       return map.get(node);
+    }
+}
