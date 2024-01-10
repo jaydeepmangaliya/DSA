@@ -1,0 +1,37 @@
+class Solution {
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+         
+     boolean visit[] = new boolean[V]; 
+     boolean start[] =  new boolean[V]; 
+     
+     for( int i=0; i<V; i++){        
+           
+           if(visit[i] == false){ 
+               if(dfs(visit , start, i , adj  )) { 
+                   return true;
+               }
+           }
+     } 
+     return false;
+    } 
+    
+    public static boolean dfs(boolean visit[] , boolean start[] , int node , ArrayList<ArrayList<Integer>> adj) { 
+        visit[node]= true; 
+        start[node] = true; 
+        
+        for(int i=0; i<adj.get(node).size(); i++){  
+            int e = adj.get(node).get(i);
+            if(visit[e] == false ){ 
+                if(dfs(visit , start , e, adj)){ 
+                    return true;
+                }
+            } 
+            else if( start[e] == true){ 
+                return true;
+            }
+        } 
+        start[node] = false ;
+        return false;
+    }
+}
