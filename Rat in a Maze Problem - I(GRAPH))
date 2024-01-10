@@ -1,0 +1,59 @@
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+     
+     ArrayList<String> ans = new ArrayList<>(); 
+     if(m[0][0] == 0){ 
+         return ans; 
+     } 
+     if(m[n-1][n-1] == 0){ 
+         return ans;
+     }      
+     int v[][] = new int[n][n]; 
+      
+      String a =""; 
+      dfs(v , m , ans ,0 ,0 ,n , a); 
+      
+      
+      return ans;
+      
+     
+    }  
+    
+    public static boolean issafe(int m[][] , int v[][] , int i , int j, int n){ 
+        
+        if( i>=0 && i<n && j>=0 && j<n && v[i][j] ==0 && m[i][j] == 1 ){ 
+            return true;
+        } 
+        return false;
+        
+    }
+    public static void dfs(int v[][] , int m[][] , ArrayList<String> ans, int i , int j , int n , String path){  
+         
+        if(i == n-1 && j ==  n-1){ 
+            ans.add(path); 
+            return;
+        }  
+        v[i][j] = 1; 
+        
+        // down
+        if(issafe(m,v,i+1,j,n)){ 
+            dfs(v,m,ans , i+1 , j, n , path+'D');
+        } 
+        //left 
+         if(issafe(m,v,i,j-1,n)){ 
+            dfs(v,m,ans , i , j-1, n , path+'L');
+        } 
+        // right 
+         if(issafe(m,v,i,j+1,n)){ 
+            dfs(v,m,ans , i , j+1, n , path+'R');
+        } 
+        // upper 
+         if(issafe(m,v,i-1,j,n)){ 
+            dfs(v,m,ans , i-1 , j, n , path+'U');
+        } 
+        
+        v[i][j] =0;  
+        
+        
+    }
+}
